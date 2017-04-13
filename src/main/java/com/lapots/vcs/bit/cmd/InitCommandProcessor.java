@@ -8,11 +8,14 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class InitCommandProcessor implements ICommandProcessor<Void> {
+/**
+ * => bit init
+ */
+public class InitCommandProcessor implements ICommandProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(InitCommandProcessor.class);
 
     @Override
-    public Void processCommand(String ... args) {
+    public void processCommand(String ... args) {
         LOGGER.info("Attempt to init index!");
 
         Path currentPath = Paths.get("");
@@ -21,7 +24,6 @@ public class InitCommandProcessor implements ICommandProcessor<Void> {
 
         Index currentIndex = new Index(null, bitPath); // creating new index
         BitUtils.writeIndex(BitUtils.buildIndex(currentIndex));
-        return null;
     }
 
 }

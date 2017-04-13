@@ -1,7 +1,7 @@
 package com.lapots.vcs.bit.cmd;
 
-public interface ICommandProcessor<T> {
+public interface ICommandProcessor {
 
-    T processCommand(String... args);
+    void processCommand(String... args);
 
 }

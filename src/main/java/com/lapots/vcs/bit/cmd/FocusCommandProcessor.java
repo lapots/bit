@@ -9,16 +9,13 @@ import org.slf4j.LoggerFactory;
 /**
  * => bit focus
  */
-public class FocusCommandProcessor implements ICommandProcessor<Void> {
+public class FocusCommandProcessor implements ICommandProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(FocusCommandProcessor.class);
 
     @Override
-    public Void processCommand(String ... args) {
+    public void processCommand(String ... args) {
         LOGGER.info("Attempt to process [focus] command.");
-
         Index bitIndex = BitUtils.readIndex();
         IndexUtils.listIndex(bitIndex);
-
-        return null;
     }
 }

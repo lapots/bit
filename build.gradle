@@ -17,5 +17,5 @@ dependencies {
 task runApp(type: JavaExec) {
     main = 'com.lapots.vcs.bit.Main'
     classpath = sourceSets.main.runtimeClasspath
-    args 'init'
+    args 'arrive'
 }
