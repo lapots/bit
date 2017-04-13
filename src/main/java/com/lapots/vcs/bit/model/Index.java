@@ -2,10 +2,11 @@ package com.lapots.vcs.bit.model;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Index {
+public class Index implements Serializable {
     private Index parent;
     private List<Index> children;
 
