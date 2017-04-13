@@ -5,10 +5,7 @@ import org.apache.commons.lang.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public final class BitUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(BitUtils.class);
@@ -30,6 +27,27 @@ public final class BitUtils {
             new FileOutputStream(BIT_FILE).write(bytes);
         } catch (IOException e) {
             LOGGER.error("Critical! Failed to create index!");
+        }
+    }
+
+    public static Index buildIndex(Index origin) {
+        File[] files = new File(origin.getName()).listFiles();
+        iterateFiles(files, origin);
+        return origin;
+    }
+
+    private static void iterateFiles(File[] files, Index parent) {
+        for (File file : files) {
+            if (file.isDirectory() && !file.getName().startsWith(".")) {
+                LOGGER.info("Entering directory: [{}].", file);
+                Index index = new Index(parent, file.toString());
+                parent.addChild(index);
+                iterateFiles(file.listFiles(), index);
+            } else {
+                LOGGER.info("Adding child [{}].", file.toString());
+                if (!file.getName().equals(BIT_FILE))
+                    parent.addChild(new Index(parent, file.toString()));
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ import com.lapots.vcs.bit.model.Index;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -21,25 +20,8 @@ public class InitCommandProcessor implements ICommandProcessor<Void> {
         LOGGER.info("Attempt to build index on: [{}].", bitPath);
 
         Index currentIndex = new Index(null, bitPath); // creating new index
-
-        File[] files = new File(bitPath).listFiles();
-        iterateFiles(files, currentIndex);
-
-        BitUtils.writeIndex(currentIndex);
+        BitUtils.writeIndex(BitUtils.buildIndex(currentIndex));
         return null;
     }
 
-    private void iterateFiles(File[] files, Index parent) {
-        for (File file : files) {
-            if (file.isDirectory()) {
-                LOGGER.info("Entering directory: [{}].", file);
-                Index index = new Index(parent, file.toString());
-                parent.addChild(index);
-                iterateFiles(file.listFiles(), index);
-            } else {
-                LOGGER.info("Adding child [{}].", file.toString());
-                parent.addChild(new Index(parent, file.toString()));
-            }
-        }
-    }
 }
