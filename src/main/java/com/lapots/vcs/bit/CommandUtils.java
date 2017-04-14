@@ -3,6 +3,7 @@ package com.lapots.vcs.bit;
 import com.lapots.vcs.bit.cmd.FocusCommandProcessor;
 import com.lapots.vcs.bit.cmd.ICommandProcessor;
 import com.lapots.vcs.bit.cmd.InitCommandProcessor;
+import com.lapots.vcs.bit.cmd.UpdateCommandProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ public final class CommandUtils {
         processors = new HashMap<>();
         processors.put("init", new InitCommandProcessor());
         processors.put("focus", new FocusCommandProcessor());
+        processors.put("update", new UpdateCommandProcessor());
     }
 
     public static void processCommand(String... args) {
