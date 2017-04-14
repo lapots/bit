@@ -1,6 +1,5 @@
 package com.lapots.vcs.bit;
 
-import com.lapots.vcs.bit.cmd.ArriveCommandProcessor;
 import com.lapots.vcs.bit.cmd.FocusCommandProcessor;
 import com.lapots.vcs.bit.cmd.ICommandProcessor;
 import com.lapots.vcs.bit.cmd.InitCommandProcessor;
@@ -17,7 +16,6 @@ public final class CommandUtils {
         processors = new HashMap<>();
         processors.put("init", new InitCommandProcessor());
         processors.put("focus", new FocusCommandProcessor());
-        processors.put("arrive", new ArriveCommandProcessor());
     }
 
     public static void processCommand(String... args) {
@@ -28,7 +26,7 @@ public final class CommandUtils {
             if (null != processor) {
                 processor.processCommand(args);
             } else {
-                LOGGER.info("No command [{}] found!", args[0]);
+                LOGGER.error("No command [{}] found!", args[0]);
             }
         }
     }

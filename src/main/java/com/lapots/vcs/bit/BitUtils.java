@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Set;
 
 public final class BitUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(BitUtils.class);
@@ -30,24 +33,21 @@ public final class BitUtils {
         }
     }
 
-    public static Index buildIndex(Index origin) {
-        File[] files = new File(origin.getName()).listFiles();
-        iterateFiles(files, origin);
-        return origin;
+    public static String getCurrentPath() {
+        Path currentPath = Paths.get("");
+        String bitPath = currentPath.toAbsolutePath().toString();
+        LOGGER.info("Bit VSC path: [{}].", bitPath);
+        return bitPath;
     }
 
-    private static void iterateFiles(File[] files, Index parent) {
+    public static void iterateFolder(File[] files, Set<String> set) {
         for (File file : files) {
             if (file.isDirectory() && !file.getName().startsWith(".")) {
-                LOGGER.info("Entering directory: [{}].", file);
-                Index index = new Index(parent, file.toString());
-                parent.addChild(index);
-                iterateFiles(file.listFiles(), index);
+                iterateFolder(file.listFiles(), set);
             } else {
-                LOGGER.info("Adding child [{}].", file.toString());
-                if (!file.getName().equals(BIT_FILE))
-                    parent.addChild(new Index(parent, file.toString()));
+                set.add(file.getAbsolutePath());
             }
         }
     }
+
 }
