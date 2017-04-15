@@ -36,7 +36,7 @@ public class FocusCommandProcessor implements ICommandProcessor {
             IndexUtils.normalizeIndexFromMemory(oldIndex, oldIndexFiles);
 
             freshIndexFiles.removeAll(oldIndexFiles);
-            LOGGER.info("New files: {}.", freshIndexFiles);
+            BitUtils.printFileSetAgainstLocal(freshIndexFiles);
         } else {
             LOGGER.info("Not a [bit] repository!");
         }

@@ -50,4 +50,16 @@ public final class BitUtils {
         }
     }
 
+    public static void printFileSetAgainstLocal(Set<String> paths) {
+        String currentPath = getCurrentPath();
+
+        for (String path : paths) {
+            String relativized = path.substring(currentPath.length() + 1);
+            System.out.println(relativized);
+        }
+    }
+
+    public static <T> boolean isEmptyArray(T[] array) {
+        return array == null || array.length == 0;
+    }
 }

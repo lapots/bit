@@ -1,13 +1,15 @@
 package com.lapots.vcs.bit;
 
 import com.lapots.vcs.bit.model.Index;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Set;
 
-public class IndexUtils {
+public final class IndexUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexUtils.class);
     private static final String BIT_FILE = ".bit";
     public static void listIndex(Index root) {
@@ -37,15 +39,18 @@ public class IndexUtils {
     }
 
     private static void createIndex(File[] files, Index parent) {
+        Set<String> fileFilter = IgnoreUtils.getFileFilter();
+        Set<String> folderFilter = IgnoreUtils.getFolderFilter();
         for (File file : files) {
-            if (file.isDirectory() && !file.getName().startsWith(".")) {
+            if (file.isDirectory() &&
+                    folderFilter.stream().noneMatch(pattern -> file.getAbsolutePath().contains(pattern))) {
                 LOGGER.debug("Entering directory: [{}].", file);
                 Index index = new Index(parent, file.toString());
                 parent.addChild(index);
                 createIndex(file.listFiles(), index);
             } else {
                 LOGGER.debug("Adding child [{}].", file.toString());
-                if (!file.getName().equals(BIT_FILE))
+                if (!fileFilter.contains(FilenameUtils.getExtension(file.toString())))
                     parent.addChild(new Index(parent, file.toString()));
             }
         }
